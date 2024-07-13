@@ -1,20 +1,13 @@
-from .models import Post
 from django import forms
+from blog.models import Post
 
-
-class ContactForm(forms.Form):
-    email = forms.EmailField(max_length=250)
-    text = forms.Textarea()
-
-
-class PostCreateForm(forms.ModelForm):
-
+class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = (
             "title",
-            "image",
-            "content",
+            "slug",
             "category",
-            "published_date",
+            "image",
+            "body",
         )

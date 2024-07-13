@@ -7,13 +7,11 @@ class PostAdmin(admin.ModelAdmin):
         "status",
         "created_date",
         "updated_date",
-        "category",
     )
     list_filter = (
         "created_date",
         "updated_date",
         "status",
-        "category",
     )
     search_fields = (
         "author",

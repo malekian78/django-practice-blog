@@ -10,7 +10,7 @@ from django.views.generic.base import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from .models import Post
-from .forms import PostCreateForm
+from .forms import PostForm
 
 # Create your views here.
 
@@ -45,7 +45,7 @@ class PostDetailView(DetailView):
 class PostCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
     model = Post
     template_name = "blog/post_create.html"
-    form_class = PostCreateForm
+    form_class = PostForm
     success_url = "blog/posts/"
     permission_required = "blog.view_post"
 
@@ -56,7 +56,7 @@ class PostCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
 
 class PostUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
     model = Post
-    form_class = PostCreateForm
+    form_class = PostForm
     success_url = "/blog/posts/"
     template_name = "blog/post_create.html"
     permission_required = "blog.change_post"
