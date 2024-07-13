@@ -13,17 +13,17 @@ class CustomLoginView(LoginView):
     template_name = "accounts/login.html"
     redirect_authenticated_user = True # remeber this warning https://docs.djangoproject.com/en/4.2/topics/auth/default/#django.contrib.auth.views.LoginView.redirect_authenticated_user
     form_class = CustomAuthenticationForm
-    success_url = reverse_lazy('task_list')
+    success_url = reverse_lazy('blog:index')
 
     def get_success_url(self):
-        return reverse_lazy("task_list")
+        return reverse_lazy("blog:index")
     
 
 class RegisterPage(FormView):
     template_name = "accounts/register.html"
     form_class = CustomUserCreationForm
     redirect_authenticated_user = True
-    success_url = reverse_lazy("task_list")
+    success_url = reverse_lazy("blog:index")
 
     def form_valid(self, form):
         user = form.save()
@@ -33,7 +33,7 @@ class RegisterPage(FormView):
 
     def get(self, *args, **kwargs):
         if self.request.user.is_authenticated:
-            return redirect("task_list")
+            return redirect("blog:index")
         return super(RegisterPage, self).get(*args, **kwargs)
 
 def Logout(request):

@@ -1,35 +1,69 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User
+from .models.user import User
+from .models.profile import Profile
+
 # Register your models here.
-class CustomUserAdmin(UserAdmin):
-    # setting filds of what to showing in admin-dashboard
+
+
+class UserAdmin(UserAdmin):
     model = User
-    list_display = ("email","id" , "is_superuser", "is_active", "created_date")
-    list_filter = ("email", "is_superuser", "is_active", "created_date")
-    search_fields = ("email",)
-    ordering = ("created_date",)
-    fieldsets = (
-        ('Authentication', {
-            'fields': (
-                "email", "password"
-            ),
-        }),
-        ('Permissions', {
-            'fields': (
-                "is_staff", "is_active","is_superuser"
-            ),
-        }),
+    list_display = (
+        "email",
+        "is_staff",
+        "is_active",
     )
-    # setting fields for adding and save new User by admin-dashboard
+    list_filter = ("is_staff", "is_active")
+    searching_fields = ("email",)
+    ordering = ("email",)
+    fieldsets = (
+        (
+            "Authentication",
+            {
+                "fields": ("email", "password"),
+            },
+        ),
+        (
+            "permissions",
+            {
+                "fields": (
+                    "is_staff",
+                    "is_active",
+                    "is_superuser",
+                ),
+            },
+        ),
+        (
+            "group permissions",
+            {
+                "classes": ("collapse",),
+                "fields": ("groups", "user_permissions"),
+            },
+        ),
+        (
+            "important date",
+            {
+                "fields": ("last_login",),
+            },
+        ),
+    )
     add_fieldsets = (
-        (None, {
-            "classes": ("wide",),
-            "fields": (
-                "email", "password1", "password2", "is_staff",
-                "is_active", "is_superuser"
-            )}
+        (
+            None,
+            {
+                "classes": ("wide",),
+                "fields": (
+                    "email",
+                    "password1",
+                    "password2",
+                    "is_staff",
+                    "is_active",
+                    "is_superuser",
+                ),
+            },
         ),
     )
 
-admin.site.register(User, CustomUserAdmin)
+
+admin.site.register(Profile)
+admin.site.register(User, UserAdmin)
