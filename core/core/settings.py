@@ -151,8 +151,8 @@ REST_FRAMEWORK = {
 }
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Handout API',
-    'DESCRIPTION': 'sharing handout for students',
+    'TITLE': 'PRACTICE DOCUMENTING API - DJANGO-ADVANCE',
+    'DESCRIPTION': 'Final practice of django-advance maktabkhooneh',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
     # OTHER SETTINGS

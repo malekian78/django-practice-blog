@@ -28,6 +28,9 @@ class Post(models.Model):
     updated_date = models.DateTimeField(auto_now=True)
     published_date = models.DateTimeField(blank=True, null=True)
 
+    def get_snippet(self):
+        return self.body[0:5]
+
     def get_absolute_url(self):
         return reverse("blog:post_detail", kwargs={"pk": self.id, "slug": self.slug})
 
