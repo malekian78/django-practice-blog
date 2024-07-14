@@ -1,0 +1,40 @@
+name: Blog project CI/CD
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  Test:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    - name: Compose up ...
+      run: docker compose -f "docker-compose-stage.yml" up -d --build 
+    - name: run tests
+      run: docker compose exec backend sh -c "pytest ."
+
+  Deploy:
+    if: ${{ always() && contains(join(needs.*.result, ','), 'success') }} 
+    name: Deploy
+    needs: Test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Connect and Execute Commands
+      uses: appleboy/ssh-action@master
+      with:
+        username: ${{secrets.USERNAME}}
+        password: ${{secrets.PASSWORD}}
+        host: ${{secrets.HOST}}
+        port: ${{secrets.PORT}}
+        script: |
+          cd ${{secrets.PROJECT_PATH}}
+          docker-compose -f docker-compose-stage.yml stop
+          git pull
+          docker-compose -f docker-compose-stage.yml restart

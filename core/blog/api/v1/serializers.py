@@ -35,7 +35,7 @@ class PostSerializer(serializers.ModelSerializer):
             "category",
             "body",
             "snippet",
-            "comments",  # Include comments field
+            "comments",
             "relative_url",
             "absolute_url",
             "updated_date",
