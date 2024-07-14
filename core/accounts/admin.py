@@ -1,13 +1,13 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models.user import User
+from .models.user import MyUser
 from .models.profile import Profile
 
 # Register your models here.
 
 
 class UserAdmin(UserAdmin):
-    model = User
+    model = MyUser
     list_display = (
         "email",
         "is_staff",
@@ -66,4 +66,4 @@ class UserAdmin(UserAdmin):
 
 
 admin.site.register(Profile)
-admin.site.register(User, UserAdmin)
+admin.site.register(MyUser, UserAdmin)

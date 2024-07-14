@@ -6,11 +6,11 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, get_user_model
 from django.core.exceptions import ValidationError
 UserModel = get_user_model()
-from .models import User
+from .models import MyUser
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
-        model = User
+        model = MyUser
         fields = ("email",)
     
     def save(self, commit: bool = ...) -> Any:

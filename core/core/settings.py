@@ -41,7 +41,16 @@ INSTALLED_APPS = [
     # MyApps
     "accounts",
     "blog",
-    "comment"
+    "comment",
+    
+    # djnago REST Framework
+    "rest_framework.authtoken",
+    "rest_framework",
+    "rest_framework_simplejwt",
+    "django_filters",
+    
+    # Documenting
+    'drf_spectacular', # API Document
 ]
 
 MIDDLEWARE = [
@@ -134,4 +143,17 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # auth user model(custom user )
-AUTH_USER_MODEL = "accounts.User"
+AUTH_USER_MODEL = "accounts.MyUser"
+
+REST_FRAMEWORK = {
+    # YOUR SETTINGS
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Handout API',
+    'DESCRIPTION': 'sharing handout for students',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
+}

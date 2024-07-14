@@ -1,12 +1,12 @@
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.db import models
-from .user import User
+from .user import MyUser
 
 
 class Profile(models.Model):
     user = models.ForeignKey(
-        "accounts.User", on_delete=models.CASCADE, related_name="profile"
+        "accounts.MyUser", on_delete=models.CASCADE, related_name="profile"
     )
     first_name = models.CharField(max_length=250)
     last_name = models.CharField(max_length=250)
@@ -17,7 +17,7 @@ class Profile(models.Model):
         return self.user.email
 
 
-@receiver(post_save, sender=User)
+@receiver(post_save, sender=MyUser)
 def create_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
