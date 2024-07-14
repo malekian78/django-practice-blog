@@ -3,6 +3,8 @@ from datetime import datetime
 
 from blog.models import Post, Category
 from accounts.models.profile import Profile
+from comment.api.v1.serializers import CommentSerializer
+
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -19,6 +21,7 @@ class PostSerializer(serializers.ModelSerializer):
     snippet = serializers.ReadOnlyField(source="get_snippet")
     relative_url = serializers.URLField(source="get_absolute_api_url", read_only=True)
     absolute_url = serializers.SerializerMethodField(method_name="get_abs_url")
+    comments = serializers.SerializerMethodField()
     
     class Meta:
         model = Post
@@ -32,6 +35,7 @@ class PostSerializer(serializers.ModelSerializer):
             "category",
             "body",
             "snippet",
+            "comments",  # Include comments field
             "relative_url",
             "absolute_url",
             "updated_date",
@@ -43,6 +47,12 @@ class PostSerializer(serializers.ModelSerializer):
         return request.build_absolute_uri(
             obj.pk
         )
+    
+    # نمایش کامنت هایی که فقط تایید شدند
+    def get_comments(self, obj):
+        # Filter comments to include only those with status=True
+        comments = obj.comment.filter(status=True)
+        return CommentSerializer(comments, many=True, context=self.context).data
     
     def to_representation(self, instance):
         request = self.context.get("request")
